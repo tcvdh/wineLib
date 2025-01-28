@@ -1,7 +1,7 @@
 import WineList from "../components/wine-list";
 
 async function fetchWines() {
-    const api = `${process.env.NEXT_PUBLIC_SITE_URL}/api/wine`;
+    const api = `${process.env.VERCEL_URL}/api/wine`;
     const response = await fetch(api);
     if (!response.ok) {
         throw new Error('Failed to fetch wines');

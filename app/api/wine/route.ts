@@ -24,7 +24,7 @@ export const wines = [
 
 export async function GET(request: Request) {
     const fetchImage = async (wineName: string) => {
-        const response = await fetch(`${process.env.NEXT_PUBLIC_SITE_URL}/api/vivino?name=${encodeURIComponent(wineName)}`);
+        const response = await fetch(`${process.env.VERCEL_URL}/api/vivino?name=${encodeURIComponent(wineName)}`);
         const data = await response.json();
         console.log(data)
         return data[0]?.thumb || "";
