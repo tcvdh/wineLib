@@ -1,3 +1,4 @@
+'use server';
 import * as cheerio from 'cheerio';
 
 // https://www.vivino.com/NL/nl/wines/1531643?year=2012
@@ -17,7 +18,7 @@ interface Vino {
 const BASE_URL = 'https://www.vivino.com';
 const SEARCH_PATH = '/search/wines?q=';
 const USER_AGENT = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/83.0.4103.116 Safari/537.36';
-const RESULT_LIMIT = 1;
+const RESULT_LIMIT = 3;
 
 // export async function GET(request: Request): Promise<Response> {
 export async function fetchWinesFromVivino(name: string): Promise<Vino[]> {
@@ -39,7 +40,7 @@ export async function fetchWinesFromVivino(name: string): Promise<Vino[]> {
             },
             method: 'GET',
             redirect: 'follow',
-            cache: 'no-store',
+            // cache: 'no-store',
         });
 
         if (!response.ok) {

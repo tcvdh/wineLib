@@ -19,7 +19,7 @@ export default async function WineList() {
                 <tr key={index}>
                     <td className="py-2 px-4 border-b">{wine.name}</td>
                     <td className="py-2 px-4 border-b">
-                        <Image src={wine.image} alt={wine.name} width={50} height={50} />
+                        <Image src={wine.image} alt={wine.name} width={50} height={50} loading="lazy" />
                     </td>
                     <td className="py-2 px-4 border-b">${wine.price.toFixed(2)}</td>
                     <td className="py-2 px-4 border-b">{wine.year}</td>

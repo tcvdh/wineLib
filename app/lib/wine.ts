@@ -1,3 +1,4 @@
+'use server';
 import { fetchWinesFromVivino } from "./vivino";
 
 const wines = [
