@@ -1,22 +1,26 @@
-import WineList from "../components/wine-list";
 
-async function fetchWines() {
-    const api = `${process.env.VERCEL_URL}/api/wine`;
-    const response = await fetch(api);
-    if (!response.ok) {
-        throw new Error('Failed to fetch wines');
-    }
-    return await response.json();
-}
+import WineList from "@/app/components/wine-list";
 
 export default async function Wines() {
-    // await new Promise((resolve) => setTimeout(resolve, 1000));
-    const wines = await fetchWines();
 
     return (
         <div className="p-5">
             <h1 className="text-3xl mb-5">Wines</h1>
-            <WineList wines={wines} />
+            <div className="overflow-x-auto">
+                    <table className="min-w-full bg-white">
+                        <thead>
+                            <tr>
+                                <th className="py-2 px-4 border-b">Name</th>
+                                <th className="py-2 px-4 border-b">Image</th>
+                                <th className="py-2 px-4 border-b">Price</th>
+                                <th className="py-2 px-4 border-b">Year</th>
+                                <th className="py-2 px-4 border-b">Rating</th>
+                            </tr>
+                        </thead>
+                        <WineList />
+                    </table>
+            </div>
         </div>
     )
 }
+export const dynamic = 'force-dynamic'
