@@ -1,12 +1,16 @@
 'use client';
 
+import { useRouter } from 'next/navigation';
 import React, { useState } from 'react';
 import { fetchWinesFromVivino } from '@/app/lib/vivino'; // Adjust import path as needed
+import { addWine } from '@/app/lib/drizzle/db';
+
+
 
 interface Vino {
     name: string;
     link: string;
-    thumb: string | null;
+    thumb: string;
     region: string;
     country: string;
 }
@@ -15,16 +19,20 @@ interface AddItemModalProps {
 }
 
 export default function AddItemModal({ onClose }: AddItemModalProps) {
+    const router = useRouter();
     const [searchTerm, setSearchTerm] = useState('');
     const [results, setResults] = useState<Vino[]>([]);
-    const [selectedWine, setSelectedWine] = useState<Vino | null>(null);
+    const [selectedWine, setSelectedWine] = useState<Vino>();
+    const [price, setPrice] = useState('');
+    const [year, setYear] = useState('');
+    const [rating, setRating] = useState('');
     const [loading, setLoading] = useState(false);
 
     async function handleSearch() {
         if (!searchTerm.trim()) return; // Check if searchTerm is empty
         setLoading(true);
         const data = await fetchWinesFromVivino(searchTerm);
-        setResults(data || []);
+        setResults(data);
         setLoading(false);
     }
 
@@ -33,9 +41,22 @@ export default function AddItemModal({ onClose }: AddItemModalProps) {
         setSelectedWine(wine);
     }
 
-    function handleSubmit() {
-        console.log('Selected wine:', selectedWine);
-        onClose();
+    async function handleSubmit() {
+        if (!selectedWine) return;
+        
+        try {
+            await addWine({
+                name: selectedWine.name,
+                image: selectedWine.thumb,
+                price: price,
+                year: parseInt(year),
+                rating: parseInt(rating),
+            });
+            router.refresh();
+            onClose();
+        } catch (error) {
+            console.error('Error adding wine:', error);
+        }
     }
 
     return (
@@ -78,6 +99,37 @@ export default function AddItemModal({ onClose }: AddItemModalProps) {
                             </li>
                         ))}
                     </ul>
+                )}
+
+                {selectedWine && (
+                    <div className="mt-4 space-y-2">
+                        <input
+                            type="number"
+                            value={price}
+                            onChange={(e) => setPrice(e.target.value)}
+                            className="border p-2 w-full"
+                            placeholder="Price"
+                            step="0.01"
+                        />
+                        <input
+                            type="number"
+                            value={year}
+                            onChange={(e) => setYear(e.target.value)}
+                            className="border p-2 w-full"
+                            placeholder="Year (1900-2024)"
+                            min="1900"
+                            max="2024"
+                        />
+                        <input
+                            type="number"
+                            value={rating}
+                            onChange={(e) => setRating(e.target.value)}
+                            className="border p-2 w-full"
+                            placeholder="Rating (0-100)"
+                            min="0"
+                            max="100"
+                        />
+                    </div>
                 )}
 
                 {/* Save the selected item */}

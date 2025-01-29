@@ -11,11 +11,11 @@ export default async function Wines() {
                 <table className="min-w-full bg-white">
                     <thead>
                         <tr>
-                            <th className="py-2 px-4 border-b">Name</th>
-                            <th className="py-2 px-4 border-b">Image</th>
-                            <th className="py-2 px-4 border-b">Price</th>
-                            <th className="py-2 px-4 border-b">Year</th>
-                            <th className="py-2 px-4 border-b">Rating</th>
+                        <th className="py-3 px-4 border-b w-64">Wine</th>
+                        <th className="py-3 px-4 border-b">Image</th>
+                        <th className="py-3 px-4 border-b">Price</th>
+                        <th className="py-3 px-4 border-b">Year</th>
+                        <th className="py-3 px-4 border-b">Rating</th>
                         </tr>
                     </thead>
                     <WineList />

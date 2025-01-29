@@ -10,7 +10,7 @@ import * as cheerio from 'cheerio';
 interface Vino {
     name: string;
     link: string;
-    thumb: string | null;
+    thumb: string;
     region: string;
     country: string;
 }
@@ -79,8 +79,13 @@ export async function fetchWinesFromVivino(name: string): Promise<Vino[]> {
             // console.log(id)
             // const wineId = $(e).attr('data-wine');
             // console.log(wineId)
-            const thumbMatch = thumbElement.attr('style')?.match(THUMB_REGEX);
-            const thumbUrl = thumbMatch ? `https:${thumbMatch[2].replace(/_pb_\d+x\d+\.png$/, '_pb_x600.png')}` : null;
+            const thumbStyle = thumbElement.attr('style');
+            const thumbMatch = thumbStyle?.match(THUMB_REGEX);
+            if (!thumbMatch) {
+                throw new Error("Could not extract thumbnail URL");
+            }
+
+            const thumbUrl = `https:${thumbMatch[2].replace(/_pb_\d+x\d+\.png$/, '_pb_x600.png')}`;
             const region = regionElement.text().trim();
             const country = countryElement.text().trim();
 

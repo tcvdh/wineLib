@@ -9,7 +9,10 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@next/env": "^15.1.6",
+    "@vercel/postgres": "^0.10.0",
     "cheerio": "^1.0.0",
+    "drizzle-orm": "^0.39.1",
     "next": "15.1.6",
     "react": "^19.0.0",
     "react-dom": "^19.0.0"
@@ -20,6 +23,7 @@
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",
+    "drizzle-kit": "^0.30.4",
     "eslint": "^9",
     "eslint-config-next": "15.1.6",
     "postcss": "^8",
