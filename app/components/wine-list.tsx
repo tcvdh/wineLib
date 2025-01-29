@@ -1,3 +1,4 @@
+export const dynamic = 'force-dynamic';
 import Image from 'next/image';
 import { getWines } from '@/app/lib/drizzle/db';
 import { Wine } from '@/app/lib/types';
