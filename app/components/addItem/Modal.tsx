@@ -47,6 +47,11 @@ export default function AddItemModal({ onClose }: AddItemModalProps) {
                         type="text"
                         value={searchTerm}
                         onChange={(e) => setSearchTerm(e.target.value)}
+                        onKeyDown={(e) => {
+                            if (e.key === 'Enter') {
+                                handleSearch();
+                            }
+                        }}
                         className="border p-2 w-full"
                         placeholder="Search wine..."
                     />
