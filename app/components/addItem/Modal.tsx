@@ -3,14 +3,21 @@
 import React, { useState } from 'react';
 import { fetchWinesFromVivino } from '@/app/lib/vivino'; // Adjust import path as needed
 
+interface Vino {
+    name: string;
+    link: string;
+    thumb: string | null;
+    region: string;
+    country: string;
+}
 interface AddItemModalProps {
     onClose: () => void;
 }
 
 export default function AddItemModal({ onClose }: AddItemModalProps) {
     const [searchTerm, setSearchTerm] = useState('');
-    const [results, setResults] = useState<any[]>([]);
-    const [selectedWine, setSelectedWine] = useState<any>(null);
+    const [results, setResults] = useState<Vino[]>([]);
+    const [selectedWine, setSelectedWine] = useState<Vino | null>(null);
     const [loading, setLoading] = useState(false);
 
     async function handleSearch() {
@@ -21,7 +28,7 @@ export default function AddItemModal({ onClose }: AddItemModalProps) {
         setLoading(false);
     }
 
-    function handleSelectWine(wine: any) {
+    function handleSelectWine(wine: Vino) {
         setSearchTerm(wine.name);
         setSelectedWine(wine);
     }
