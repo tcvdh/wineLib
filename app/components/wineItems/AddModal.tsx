@@ -1,7 +1,7 @@
 'use client';
 
 import { useRouter } from 'next/navigation';
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { fetchWinesFromVivino } from '@/app/lib/vivino'; // Adjust import path as needed
 import { addWine } from '@/app/lib/drizzle/db';
 
@@ -27,6 +27,11 @@ export default function AddItemModal({ onClose }: AddItemModalProps) {
     const [rating, setRating] = useState('');
     const [loading, setLoading] = useState(false);
     const [editableName, setEditableName] = useState('');
+    const inputRef = useRef<HTMLInputElement>(null);
+
+    useEffect(() => {
+        inputRef.current?.focus();
+    }, []);
 
     async function handleSearch() {
         if (!searchTerm.trim()) return; // Check if searchTerm is empty
@@ -77,6 +82,7 @@ export default function AddItemModal({ onClose }: AddItemModalProps) {
                 <div className="flex mb-4">
                     <div className="relative flex-grow">
                         <input
+                            ref={inputRef}
                             type="text"
                             value={searchTerm}
                             onChange={(e) => setSearchTerm(e.target.value)}
