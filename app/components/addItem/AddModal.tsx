@@ -5,8 +5,6 @@ import React, { useState } from 'react';
 import { fetchWinesFromVivino } from '@/app/lib/vivino'; // Adjust import path as needed
 import { addWine } from '@/app/lib/drizzle/db';
 
-
-
 interface Vino {
     name: string;
     link: string;

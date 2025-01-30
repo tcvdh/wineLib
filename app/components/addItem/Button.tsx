@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState } from 'react';
-import AddItemModal from './Modal';
+import AddItemModal from './AddModal';
 
 export default function AddItemButton() {
     const [showModal, setShowModal] = useState(false);

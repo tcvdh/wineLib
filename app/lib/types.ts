@@ -5,3 +5,8 @@ export type Wine = {
     year: number;   // Integer between 1900-2024
     rating: number; // Integer between 0-100
 };
+
+export type WineWithId = Wine & {
+    id: number;
+    createdAt: Date;
+};
