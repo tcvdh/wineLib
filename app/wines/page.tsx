@@ -1,4 +1,4 @@
-
+export const dynamic = 'force-dynamic';
 import WineList from "@/app/components/wine-list";
 import AddItemButton from '@/app/components/addItem/Button';
 
