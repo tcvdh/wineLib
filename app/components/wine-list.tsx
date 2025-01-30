@@ -1,7 +1,8 @@
 import Image from 'next/image';
 import { getWines } from '@/app/lib/drizzle/db';
 import { WineWithId } from '@/app/lib/types';
-import DeleteButton from './addItem/DeleteButton';
+import DeleteButton from './wineItems/DeleteButton';
+import Editbutton from './wineItems/EditButton';
 
 export default async function WineList() {
     const wines: WineWithId[] = await getWines();
@@ -23,11 +24,11 @@ export default async function WineList() {
                             />
                         )}
                     </td>
-                    <td className="py-2 px-4 border-b text-center">{wine.price}</td>
+                    <td className="py-2 px-4 border-b text-center">€ {wine.price}</td>
                     <td className="py-2 px-4 border-b text-center">{wine.year}</td>
                     <td className="py-2 px-4 border-b text-center">{wine.rating}/100</td>
                     <td className="py-2 px-4 border-b text-center">
-                        <button className="text-blue-500 hover:text-blue-700 mr-2">Edit</button>
+                        <Editbutton id={wine.id} />
                         <DeleteButton id={wine.id} />
                     </td>
                 </tr>

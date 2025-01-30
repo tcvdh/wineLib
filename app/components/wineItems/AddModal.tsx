@@ -9,6 +9,7 @@ interface Vino {
     name: string;
     link: string;
     thumb: string;
+    price: string;
     region: string;
     country: string;
 }
@@ -25,6 +26,7 @@ export default function AddItemModal({ onClose }: AddItemModalProps) {
     const [year, setYear] = useState('');
     const [rating, setRating] = useState('');
     const [loading, setLoading] = useState(false);
+    const [editableName, setEditableName] = useState('');
 
     async function handleSearch() {
         if (!searchTerm.trim()) return; // Check if searchTerm is empty
@@ -35,8 +37,19 @@ export default function AddItemModal({ onClose }: AddItemModalProps) {
     }
 
     function handleSelectWine(wine: Vino) {
-        setSearchTerm(wine.name);
+        // setSearchTerm(wine.name);
+        setEditableName(wine.name);
         setSelectedWine(wine);
+        setPrice(wine.price);
+        // Extract year from name if last 4 characters are a valid year
+        const yearMatch = wine.name.match(/\d{4}$/);
+        if (yearMatch) {
+            const potentialYear = parseInt(yearMatch[0]);
+            if (potentialYear >= 1900 && potentialYear <= 2024) {
+                setYear(yearMatch[0]);
+                setEditableName(wine.name.slice(0, -4).trim());
+            }
+        }
     }
 
     async function handleSubmit() {
@@ -44,7 +57,7 @@ export default function AddItemModal({ onClose }: AddItemModalProps) {
         
         try {
             await addWine({
-                name: selectedWine.name,
+                name: editableName, // Use editable name instead of selectedWine.name
                 image: selectedWine.thumb,
                 price: price,
                 year: parseInt(year),
@@ -62,18 +75,28 @@ export default function AddItemModal({ onClose }: AddItemModalProps) {
             <div className="bg-white p-8 rounded w-full sm:w-1/2 border border-gray-700">
                 <h2 className="mb-4 text-xl font-semibold">Add New Item</h2>
                 <div className="flex mb-4">
-                    <input
-                        type="text"
-                        value={searchTerm}
-                        onChange={(e) => setSearchTerm(e.target.value)}
-                        onKeyDown={(e) => {
-                            if (e.key === 'Enter') {
-                                handleSearch();
-                            }
-                        }}
-                        className="border p-2 w-full"
-                        placeholder="Search wine..."
-                    />
+                    <div className="relative flex-grow">
+                        <input
+                            type="text"
+                            value={searchTerm}
+                            onChange={(e) => setSearchTerm(e.target.value)}
+                            onKeyDown={(e) => {
+                                if (e.key === 'Enter') {
+                                    handleSearch();
+                                }
+                            }}
+                            className="border p-2 w-full"
+                            placeholder="Search wine..."
+                        />
+                        {searchTerm && (
+                            <button
+                                onClick={() => setSearchTerm('')}
+                                className="absolute right-2 top-1/2 -translate-y-1/2 text-gray-500 hover:text-gray-700"
+                            >
+                                ✕
+                            </button>
+                        )}
+                    </div>
                     <button
                         onClick={handleSearch}
                         className="ml-4 p-2 bg-blue-500 text-white rounded cursor-pointer hover:bg-blue-600"
@@ -101,6 +124,13 @@ export default function AddItemModal({ onClose }: AddItemModalProps) {
 
                 {selectedWine && (
                     <div className="mt-4 space-y-2">
+                        <input
+                            type="text"
+                            value={editableName}
+                            onChange={(e) => setEditableName(e.target.value)}
+                            className="border p-2 w-full"
+                            placeholder="Wine Name"
+                        />
                         <input
                             type="number"
                             value={price}

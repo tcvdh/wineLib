@@ -22,3 +22,17 @@ export const deleteWine = async (id: number) => {
         .where(eq(schema.WinesTable.id, id))
         .returning();
 };
+
+export const getWineById = async (id: number): Promise<WineWithId | undefined> => {
+  const wines = await db.select()
+      .from(schema.WinesTable)
+      .where(eq(schema.WinesTable.id, id));
+  return wines[0];
+};
+
+export const updateWine = async (id: number, wine: Partial<Wine>) => {
+  return await db.update(schema.WinesTable)
+      .set(wine)
+      .where(eq(schema.WinesTable.id, id))
+      .returning();
+};

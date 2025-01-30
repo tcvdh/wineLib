@@ -1,5 +1,6 @@
 'use server';
 import * as cheerio from 'cheerio';
+import { getVivinoPrice } from './getVivinoPrice';
 
 // https://www.vivino.com/NL/nl/wines/1531643?year=2012
 // https://api.vivino.com/v/9.1.1/vintages/1852295
@@ -11,6 +12,7 @@ interface Vino {
     name: string;
     link: string;
     thumb: string;
+    price: string;
     region: string;
     country: string;
 }
@@ -57,7 +59,7 @@ export async function fetchWinesFromVivino(name: string): Promise<Vino[]> {
         const THUMB_SELECTOR = '.wine-card__image';
         const THUMB_REGEX = /url\((['"])?(.*?)\1\)/;
 
-        $(CARDS_SELECTOR).each((i, e) => {
+        await Promise.all($(CARDS_SELECTOR).map(async (i, e) => {
             if (i >= RESULT_LIMIT) return false; // Limit to the first 3 items
 
             const nameElement = $(e).find(NAME_SELECTOR);
@@ -65,6 +67,7 @@ export async function fetchWinesFromVivino(name: string): Promise<Vino[]> {
             const thumbElement = $(e).find(THUMB_SELECTOR);
             const regionElement = $(e).find(REGION_SELECTOR).first();
             const countryElement = $(e).find(REGION_SELECTOR).eq(1);
+            
 
             const name = nameElement.text().trim();
             // const nameId = name
@@ -75,7 +78,7 @@ export async function fetchWinesFromVivino(name: string): Promise<Vino[]> {
             //     .toLowerCase();
             // console.log(nameId);
             const link = linkElement.attr('href');
-            // const id = link ? link.split('/').pop() : '';
+            const id = link ? link.split('/').pop() : '';
             // console.log(id)
             // const wineId = $(e).attr('data-wine');
             // console.log(wineId)
@@ -88,15 +91,22 @@ export async function fetchWinesFromVivino(name: string): Promise<Vino[]> {
             const thumbUrl = `https:${thumbMatch[2].replace(/_pb_\d+x\d+\.png$/, '_pb_x600.png')}`;
             const region = regionElement.text().trim();
             const country = countryElement.text().trim();
+            let price = '';
+
+            if (id) {
+                price = await getVivinoPrice(id) || '';
+            }
+            
 
             result.push({
                 name,
                 link: `${BASE_URL}${link}`,
                 thumb: thumbUrl,
+                price,
                 region,
                 country,
             });
-        });
+        }));
         
     } catch (error) {
         console.error('Exception:', error);

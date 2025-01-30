@@ -1,6 +1,6 @@
 export default function Footer() {
     return (
-        <footer className="bottom-0 w-full bg-gray-800 p-4 z-100 text-right">
+        <footer className="mt-auto w-full bg-gray-700 p-4 z-100 text-right text-white">
           © 2025 tcvdh. All rights reserved.
         </footer>
     )

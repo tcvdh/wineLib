@@ -1,11 +1,23 @@
 export const dynamic = 'force-dynamic';
 import WineList from "@/app/components/wine-list";
-import AddItemButton from '@/app/components/addItem/Button';
+import AddItemButton from '@/app/components/wineItems/AddButton';
 
 export default async function Wines() {
     return (
         <div className="p-5">
-            <h1 className="text-3xl mb-5">Wines</h1>
+            <div className="flex items-center gap-5 mb-5">
+                <h1 className="text-3xl">Wines</h1>
+                
+                <input 
+                    type="text" 
+                    placeholder="Search wines" 
+                    className="border border-gray-300 rounded px-3 py-1"
+                />
+                <div className="ml-auto flex items-center gap-5">
+                    <AddItemButton/>
+                </div>
+            </div>
+            
             <div className="overflow-x-auto">
                 <table className="min-w-full bg-white">
                     <thead>
@@ -20,7 +32,6 @@ export default async function Wines() {
                     </thead>
                     <WineList />
                 </table>
-                <AddItemButton />
             </div>
         </div>
     )

@@ -9,7 +9,7 @@ export default function AddItemButton() {
     return (
         <>
             <button
-                className="mt-4 p-2 bg-blue-500 text-white rounded cursor-pointer hover:bg-blue-600"
+                className="p-2 bg-blue-500 text-white rounded cursor-pointer hover:bg-blue-600"
                 onClick={() => setShowModal(true)}
             >
                 Add Item
