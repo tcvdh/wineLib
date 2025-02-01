@@ -11,9 +11,10 @@ export default function Home() {
             Welcome to WineLib
           </h1>
           <p className="text-xl text-gray-600 max-w-2xl mx-auto">
-            Your personal wine collection manager. Discover, track, and rate your favorite wines.
+            Your personal wine collection manager. Discover, track, and rate
+            your favorite wines.
           </p>
-          <Link 
+          <Link
             href="/wines"
             className="inline-block bg-blue-500 text-white px-8 py-3 rounded-lg hover:bg-blue-600 transition-colors"
           >
@@ -33,10 +34,14 @@ export default function Home() {
                 priority
               />
             </div>
-            <h2 className="text-xl font-semibold text-gray-900">Discover Wines</h2>
-            <p className="text-gray-600">Search and explore wines from around the world</p>
+            <h2 className="text-xl font-semibold text-gray-900">
+              Discover Wines
+            </h2>
+            <p className="text-gray-600">
+              Search and explore wines from around the world
+            </p>
           </div>
-          
+
           <div className="text-center space-y-4">
             <div className="bg-gray-100 w-16 h-16 rounded-full mx-auto flex items-center justify-center">
               <Image
@@ -47,10 +52,14 @@ export default function Home() {
                 priority
               />
             </div>
-            <h2 className="text-xl font-semibold text-gray-900">Track Collection</h2>
-            <p className="text-gray-600">Manage your personal wine collection</p>
+            <h2 className="text-xl font-semibold text-gray-900">
+              Track Collection
+            </h2>
+            <p className="text-gray-600">
+              Manage your personal wine collection
+            </p>
           </div>
-          
+
           <div className="text-center space-y-4">
             <div className="bg-gray-100 w-16 h-16 rounded-full mx-auto flex items-center justify-center">
               <Image
@@ -61,8 +70,12 @@ export default function Home() {
                 priority
               />
             </div>
-            <h2 className="text-xl font-semibold text-gray-900">Rate & Review</h2>
-            <p className="text-gray-600">Keep track of your wine ratings and notes</p>
+            <h2 className="text-xl font-semibold text-gray-900">
+              Rate & Review
+            </h2>
+            <p className="text-gray-600">
+              Keep track of your wine ratings and notes
+            </p>
           </div>
         </div>
       </div>
