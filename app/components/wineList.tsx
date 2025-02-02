@@ -38,9 +38,10 @@ export default async function WineList({ query }: WineListProps) {
                 src={wine.image}
                 alt={wine.name}
                 width={50}
-                height={50}
+                height={0}
                 className="rounded-md mx-auto"
                 loading="lazy"
+                style={{ width: "auto" }}
               />
             )}
           </td>
