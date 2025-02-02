@@ -1,16 +1,22 @@
 export const dynamic = "force-dynamic";
-import WineList from "@/app/components/wine-list";
+import WineList from "@/app/components/wineList";
 import AddItemButton from "@/app/components/wineItems/AddButton";
+import SearchBar from "@/app/components/SearchBar";
 
-export default async function Wines() {
+interface WinesPageProps {
+  searchParams?: {
+    query?: string;
+  };
+}
+
+export default async function Wines({ searchParams }: WinesPageProps) {
+  const resolvedParams = await Promise.resolve(searchParams);
+  const query = resolvedParams?.query || "";
+
   return (
     <div className="p-5">
       <div className="flex items-center gap-5 mb-5">
-        <input
-          type="text"
-          placeholder="Search wines"
-          className="border border-gray-300 rounded px-3 py-1"
-        />
+        <SearchBar />
         <div className="ml-auto flex items-center gap-5">
           <AddItemButton />
         </div>
@@ -28,7 +34,7 @@ export default async function Wines() {
               <th className="py-2 px-4 border-b w-16">Actions</th>
             </tr>
           </thead>
-          <WineList />
+          <WineList query={query} />
         </table>
       </div>
     </div>
