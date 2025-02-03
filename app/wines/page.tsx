@@ -4,9 +4,7 @@ import AddItemButton from "@/app/components/wineItems/AddButton";
 import SearchBar from "@/app/components/SearchBar";
 
 interface WinesPageProps {
-  searchParams?: {
-    query?: string;
-  };
+  searchParams?: Promise<{ query?: string }>;
 }
 
 export default async function Wines({ searchParams }: WinesPageProps) {
