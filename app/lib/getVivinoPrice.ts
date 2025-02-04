@@ -21,6 +21,7 @@ export async function getVivinoPrice(id: string): Promise<string | null> {
     }
 
     const text = await response.text();
+    console.log("Text:", text);
 
     // Updated regex to match exact price format
     const priceRegex = /wine-price-value'\s*\)\s*\.text\(\s*'([\d,]+)'\s*\)/;
