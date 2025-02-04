@@ -3,7 +3,7 @@
 export async function getVivinoPrice(id: string): Promise<string | null> {
   try {
     const response = await fetch(
-      `https://www.vivino.com/nl-nl/prices?vintages[]=${id}`,
+      `https://www.vivino.com/prices?vintages[]=${id}`,
       {
         headers: {
           accept:
