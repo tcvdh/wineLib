@@ -16,21 +16,17 @@ export async function getVivinoPrice(id: string): Promise<string | null> {
     );
 
     if (!response.ok) {
-      console.log(`Failed to fetch price: ${response.statusText}`);
       throw new Error(`Failed to fetch price: ${response.statusText}`);
     }
 
     const text = await response.text();
-    console.log("Text:", text);
 
     // Updated regex to match exact price format
     const priceRegex = /wine-price-value'\s*\)\.text\(\s*'([\d,.]+)'\s*\)/;
     const match = text.match(priceRegex);
-    console.log("Match:", match);
     if (match && match[1]) {
       const formattedPrice = match[1].replace(",", ".");
       match[1] = formattedPrice;
-      console.log("Formatted price:", formattedPrice);
     }
 
     if (match && match[1]) {
