@@ -15,7 +15,7 @@ export default function MobileNavbar() {
   return (
     <nav className="fixed top-0 w-full p-4 z-50 border-b border-gray-400 shadow-md bg-gray-700">
       <div className="flex justify-between items-center">
-        <div className="text-white text-lg font-bold">Wine Tracker</div>
+        <div className="text-white text-lg font-bold">WineLib</div>
         <button className="text-white" onClick={toggleMenu}>
           <svg
             className="w-5 h-5"
