@@ -9,10 +9,17 @@ interface WineListProps {
 }
 
 export default async function WineList({ query }: WineListProps) {
+  function normalizeString(str: string) {
+    return str
+      .normalize("NFD")
+      .replace(/[\u0300-\u036f]/g, "")
+      .toLowerCase();
+  }
+
   const wines: WineWithId[] = await getWines();
 
   const filteredWines = wines.filter((wine) =>
-    wine.name.toLowerCase().includes(query.toLowerCase())
+    normalizeString(wine.name).includes(normalizeString(query))
   );
 
   if (filteredWines.length === 0) {
