@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import LoginButton from "./loginButton";
 
 export default function DesktopNavbar() {
   const pathname = usePathname();
@@ -34,6 +35,7 @@ export default function DesktopNavbar() {
             </Link>
           </li>
         </ul>
+        <LoginButton />
       </div>
     </nav>
   );

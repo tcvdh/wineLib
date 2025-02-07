@@ -12,6 +12,7 @@
     "@next/env": "^15.1.6",
     "@vercel/postgres": "^0.10.0",
     "@vercel/speed-insights": "^1.1.0",
+    "better-auth": "^1.1.16",
     "cheerio": "^1.0.0",
     "drizzle-orm": "^0.39.1",
     "next": "15.1.6",

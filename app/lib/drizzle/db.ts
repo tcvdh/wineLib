@@ -5,7 +5,7 @@ import { eq, asc } from "drizzle-orm";
 import * as schema from "./schema";
 import { Wine, WineWithId } from "@/app/lib/types";
 
-const db = drizzle(sql, { schema });
+export const db = drizzle(sql, { schema });
 
 export const addWine = async (wine: Wine) => {
   return await db.insert(schema.WinesTable).values(wine).returning();
