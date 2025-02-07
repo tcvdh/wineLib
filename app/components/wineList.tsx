@@ -1,5 +1,5 @@
 import Image from "next/image";
-import { getWines } from "@/app/lib/drizzle/db";
+import { getWines } from "@/app/lib/drizzle/queries";
 import { WineWithId } from "@/app/lib/types";
 import DeleteButton from "./wineItems/DeleteButton";
 import Editbutton from "./wineItems/EditButton";

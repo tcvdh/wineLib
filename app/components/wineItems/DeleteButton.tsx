@@ -1,7 +1,7 @@
 "use client";
 import { useRouter } from "next/navigation";
 import { useState, useEffect } from "react";
-import { deleteWine } from "@/app/lib/drizzle/db";
+import { deleteWine } from "@/app/lib/drizzle/queries";
 
 export default function DeleteButton({ id }: { id: number }) {
   const router = useRouter();

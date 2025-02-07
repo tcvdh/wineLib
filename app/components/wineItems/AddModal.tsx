@@ -3,7 +3,7 @@
 import { useRouter } from "next/navigation";
 import React, { useState, useEffect, useRef } from "react";
 import { fetchWinesFromVivino } from "@/app/lib/vivino"; // Adjust import path as needed
-import { addWine } from "@/app/lib/drizzle/db";
+import { addWine } from "@/app/lib/drizzle/queries";
 
 interface Vino {
   name: string;

@@ -1,7 +1,7 @@
 "use client";
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
-import { getWineById, updateWine } from "@/app/lib/drizzle/db";
+import { getWineById, updateWine } from "@/app/lib/drizzle/queries";
 
 interface EditModalProps {
   id: number;
