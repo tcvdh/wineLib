@@ -1,14 +1,33 @@
+"use server";
 import Image from "next/image";
 import { getWines } from "@/app/lib/drizzle/queries";
 import { WineWithId } from "@/app/lib/types";
 import DeleteButton from "./wineItems/DeleteButton";
 import Editbutton from "./wineItems/EditButton";
+import { auth } from "@/app/lib/auth";
+import { headers } from "next/headers";
 
 interface WineListProps {
   query: string;
 }
 
 export default async function WineList({ query }: WineListProps) {
+  const session = await auth.api.getSession({
+    headers: await headers(),
+  });
+
+  if (!session?.user.id) {
+    return (
+      <tbody>
+        <tr>
+          <td colSpan={6} className="py-8 text-center text-gray-500">
+            Please log in to view your wine collection
+          </td>
+        </tr>
+      </tbody>
+    );
+  }
+
   function normalizeString(str: string) {
     return str
       .normalize("NFD")

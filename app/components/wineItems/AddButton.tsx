@@ -2,9 +2,18 @@
 
 import React, { useState } from "react";
 import AddItemModal from "./AddModal";
+import { Session } from "@/app/lib/auth-client";
 
-export default function AddItemButton() {
+interface AddItemButtonProps {
+  session: Session | null;
+}
+
+export default function AddItemButton({ session }: AddItemButtonProps) {
   const [showModal, setShowModal] = useState(false);
+
+  if (!session?.user.id) {
+    return null;
+  }
 
   return (
     <>

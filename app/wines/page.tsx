@@ -1,4 +1,6 @@
 export const dynamic = "force-dynamic";
+import { headers } from "next/headers";
+import { auth } from "@/app/lib/auth";
 import WineList from "@/app/components/wineList";
 import AddItemButton from "@/app/components/wineItems/AddButton";
 import SearchBar from "@/app/components/SearchBar";
@@ -11,12 +13,16 @@ export default async function Wines({ searchParams }: WinesPageProps) {
   const resolvedParams = await Promise.resolve(searchParams);
   const query = resolvedParams?.query || "";
 
+  const session = await auth.api.getSession({
+    headers: await headers(),
+  });
+
   return (
     <div className="p-5">
       <div className="flex items-center gap-5 mb-5">
         <SearchBar />
         <div className="ml-auto flex items-center gap-5">
-          <AddItemButton />
+          <AddItemButton session={session} />
         </div>
       </div>
 

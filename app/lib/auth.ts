@@ -8,5 +8,11 @@ export const auth = betterAuth({
   }),
   emailAndPassword: {
     enabled: true,
+    minimumPasswordLength: 8,
+  },
+  advanced: {
+    cookiePrefix: "WineLib",
   },
 });
+
+export type Auth = typeof auth;

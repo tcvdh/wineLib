@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useState } from "react";
+import LoginButton from "./loginButton";
 
 export default function MobileNavbar() {
   const pathname = usePathname();
@@ -57,6 +58,9 @@ export default function MobileNavbar() {
           >
             Wines
           </Link>
+        </li>
+        <li className="px-2 py-1">
+          <LoginButton />
         </li>
       </ul>
     </nav>

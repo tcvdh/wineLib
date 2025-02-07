@@ -1,4 +1,15 @@
 import { createAuthClient } from "better-auth/react";
+
+export interface Session {
+  user: {
+    id: string;
+    email: string;
+  };
+}
+
 export const authClient = createAuthClient({
-  baseURL: "http://localhost:3000", // the base url of your auth server
+  baseURL: process.env.NEXT_PUBLIC_AUTH_URL || "http://localhost:3000",
+  tokenStorage: "localStorage",
 });
+
+export type AuthClient = typeof authClient;

@@ -19,6 +19,9 @@ export const WinesTable = pgTable(
     year: integer("year").notNull(),
     rating: integer("rating").notNull(),
     createdAt: timestamp("createdAt").defaultNow().notNull(),
+    userId: text("user_id")
+      .notNull()
+      .references(() => user.id),
   },
   (wines) => [uniqueIndex("unique_idx").on(wines.id)]
 );
