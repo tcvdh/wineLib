@@ -71,6 +71,7 @@ export default function SignupModal({ onClose, onSwitch }: SignupModalProps) {
               onChange={(e) => setEmail(e.target.value)}
               className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 focus:border-blue-500 focus:outline-none"
               required
+              autoFocus
             />
           </div>
 
