@@ -14,22 +14,32 @@ export default function SigninModal({ onClose, onSwitch }: SigninModalProps) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError("");
 
-    try {
-      await authClient.signIn.email({
+    await authClient.signIn.email(
+      {
         email,
         password,
-      });
-      router.refresh();
-      onClose(); // This will trigger session check in LoginButton
-    } catch (err) {
-      setError("Invalid email or password");
-      console.error("Sign in error:", err);
-    }
+      },
+      {
+        onError: (ctx) => {
+          setLoading(false);
+          setError(ctx.error.message);
+        },
+        onSuccess: () => {
+          setLoading(false);
+          router.refresh();
+          onClose();
+        },
+        onRequest: () => {
+          setLoading(true);
+        },
+      }
+    );
   };
 
   return (
@@ -85,8 +95,9 @@ export default function SigninModal({ onClose, onSwitch }: SigninModalProps) {
           <button
             type="submit"
             className="w-full bg-blue-600 text-white py-2 px-4 rounded-md hover:bg-blue-700 transition-colors"
+            disabled={loading}
           >
-            Sign In
+            {loading ? "Loading..." : "Sign In"}
           </button>
         </form>
 

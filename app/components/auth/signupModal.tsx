@@ -16,6 +16,7 @@ export default function SignupModal({ onClose, onSwitch }: SignupModalProps) {
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -23,23 +24,33 @@ export default function SignupModal({ onClose, onSwitch }: SignupModalProps) {
 
     if (password !== confirmPassword) {
       setError("Passwords do not match");
+      setLoading(false);
       return;
     }
 
-    try {
-      await authClient.signUp.email({
+    await authClient.signUp.email(
+      {
         email,
         password,
         name,
         image: "",
         callbackURL: `${window.location.origin}/auth/callback`,
-      });
-      router.refresh();
-      onClose();
-    } catch (err) {
-      setError("Failed to create account");
-      console.error("Sign up error:", err);
-    }
+      },
+      {
+        onError: (ctx) => {
+          setLoading(false);
+          setError(ctx.error.message);
+        },
+        onSuccess: () => {
+          setLoading(false);
+          router.refresh();
+          onClose();
+        },
+        onRequest: () => {
+          setLoading(true);
+        },
+      }
+    );
   };
 
   return (
@@ -131,8 +142,9 @@ export default function SignupModal({ onClose, onSwitch }: SignupModalProps) {
           <button
             type="submit"
             className="w-full bg-blue-600 text-white py-2 px-4 rounded-md hover:bg-blue-700 transition-colors"
+            disabled={loading}
           >
-            Create Account
+            {loading ? "Loading..." : "Sign Up"}
           </button>
         </form>
 
