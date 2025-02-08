@@ -8,7 +8,9 @@ export interface Session {
 }
 
 export const authClient = createAuthClient({
-  baseURL: process.env.BETTER_AUTH_URL || "http://localhost:3000",
+  baseURL:
+    "https://" + process.env.NEXT_PUBLIC_VERCEL_PROJECT_PRODUCTION_URL ||
+    "http://localhost:3000",
   tokenStorage: "localStorage",
 });
 
