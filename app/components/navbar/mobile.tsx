@@ -60,7 +60,7 @@ export default function MobileNavbar() {
           </Link>
         </li>
         <li className="px-2 py-1">
-          <LoginButton />
+          <LoginButton toggleMenu={toggleMenu} />
         </li>
       </ul>
     </nav>

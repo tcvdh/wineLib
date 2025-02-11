@@ -6,7 +6,11 @@ import SigninModal from "../auth/signinModal";
 import SignupModal from "../auth/signupModal";
 import AccountModal from "../auth/accountModal";
 
-export default function LoginButton() {
+export default function LoginButton({
+  toggleMenu,
+}: {
+  toggleMenu?: () => void;
+}) {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isSignup, setIsSignup] = useState(false);
   const [session, setSession] = useState<unknown>(null);
@@ -23,7 +27,8 @@ export default function LoginButton() {
   const handleClose = () => {
     setIsModalOpen(false);
     setIsSignup(false);
-    checkSession(); // Refresh session state after modal closes
+    checkSession();
+    toggleMenu?.();
   };
 
   const toggleMode = () => {
@@ -41,7 +46,10 @@ export default function LoginButton() {
         </button>
         {isModalOpen && (
           <AccountModal
-            onClose={() => setIsModalOpen(false)}
+            onClose={() => {
+              setIsModalOpen(false);
+              toggleMenu?.();
+            }}
             onLogout={checkSession}
           />
         )}
