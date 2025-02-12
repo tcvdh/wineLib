@@ -34,6 +34,10 @@ npm install
 
 Follow the instructions at [Drizzle with Vercel Documentation](https://orm.drizzle.team/docs/tutorials/drizzle-with-vercel) to set up your PostgreSQL database with Drizzle.
 
+### Setup Authentication
+
+Follow the instructions at [Better Auth Documentation](https://www.better-auth.com/docs/installation) to set up authentication (secrets and environment variables).
+
 ### Start the Application
 
 ```bash
