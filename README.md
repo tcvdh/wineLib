@@ -4,6 +4,7 @@ Welcome to **WineLib**, your personal wine journal and collection manager. With 
 
 - **Track Your Collection**: Manage and organize the wines you've tasted and those you wish to try.
 - **Rate and Review**: Keep detailed notes and ratings to remember your experiences.
+- **Vivino Integration**: Fetch detailed wine information directly from Vivino's extensive database.
 
 ## Getting Started
 
