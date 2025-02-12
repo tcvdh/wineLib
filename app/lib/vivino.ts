@@ -23,12 +23,7 @@ const USER_AGENT =
   "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/83.0.4103.116 Safari/537.36";
 const RESULT_LIMIT = 3;
 
-// export async function GET(request: Request): Promise<Response> {
 export async function fetchWinesFromVivino(name: string): Promise<Vino[]> {
-  // const url = new URL(request.url);
-  // const name = url.searchParams.get('name');
-  // const result: { vinos: Vino[], http_status?: number } = { vinos: [] };
-
   const result: Vino[] = [];
 
   if (!name) {

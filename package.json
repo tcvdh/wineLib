@@ -1,5 +1,5 @@
 {
-  "name": "tcvdh",
+  "name": "winelib",
   "version": "0.1.0",
   "private": true,
   "scripts": {
@@ -15,7 +15,7 @@
     "better-auth": "^1.1.16",
     "cheerio": "^1.0.0",
     "drizzle-orm": "^0.39.1",
-    "next": "15.1.6",
+    "next": "^15.1.7",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
     "use-debounce": "^10.0.4"
@@ -28,7 +28,7 @@
     "@types/react-dom": "^19",
     "drizzle-kit": "^0.30.4",
     "eslint": "^9",
-    "eslint-config-next": "15.1.6",
+    "eslint-config-next": "^15.1.7",
     "postcss": "^8",
     "tailwindcss": "^4.0.0",
     "typescript": "^5"

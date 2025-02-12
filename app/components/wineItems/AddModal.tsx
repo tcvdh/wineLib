@@ -2,7 +2,7 @@
 
 import { useRouter } from "next/navigation";
 import React, { useState, useEffect, useRef } from "react";
-import { fetchWinesFromVivino } from "@/app/lib/vivino"; // Adjust import path as needed
+import { fetchWinesFromVivino } from "@/app/lib/vivino";
 import { addWine } from "@/app/lib/drizzle/queries";
 
 interface Vino {
@@ -34,7 +34,7 @@ export default function AddItemModal({ onClose }: AddItemModalProps) {
   }, []);
 
   async function handleSearch() {
-    if (!searchTerm.trim()) return; // Check if searchTerm is empty
+    if (!searchTerm.trim()) return;
     setLoading(true);
     const data = await fetchWinesFromVivino(searchTerm);
     setResults(data);
@@ -42,11 +42,9 @@ export default function AddItemModal({ onClose }: AddItemModalProps) {
   }
 
   function handleSelectWine(wine: Vino) {
-    // setSearchTerm(wine.name);
     setEditableName(wine.name);
     setSelectedWine(wine);
     setPrice(wine.price);
-    // Extract year from name if last 4 characters are a valid year
     const yearMatch = wine.name.match(/\d{4}$/);
     if (yearMatch) {
       const potentialYear = parseInt(yearMatch[0]);
@@ -62,7 +60,7 @@ export default function AddItemModal({ onClose }: AddItemModalProps) {
 
     try {
       await addWine({
-        name: editableName, // Use editable name instead of selectedWine.name
+        name: editableName,
         image: selectedWine.thumb,
         price: price,
         year: parseInt(year),

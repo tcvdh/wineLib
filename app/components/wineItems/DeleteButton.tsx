@@ -11,7 +11,7 @@ export default function DeleteButton({ id }: { id: number }) {
     if (isConfirming) {
       const timer = setTimeout(() => {
         setIsConfirming(false);
-      }, 3000); // Reset after 3 seconds
+      }, 3000);
       return () => clearTimeout(timer);
     }
   }, [isConfirming]);
