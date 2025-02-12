@@ -11,7 +11,7 @@ WineLib is a modern web application designed to enhance your wine exploration ex
 
 ## Getting Started
 
-Visit the live application at [https://wine.tcvdh.nl](https://wine.tcvdh.nl) to start managing your wine journey.
+Visit the live application at [https://winelib.nl](https://winelib.nl) to start managing your wine journey.
 
 For developers interested in contributing or running the project locally:
 
@@ -48,7 +48,7 @@ The application will be available at `http://localhost:3000`.
 
 ## API Documentation
 
-Comprehensive API documentation is available at [https://wine.tcvdh.nl/docs](https://wine.tcvdh.nl/docs).  
+Comprehensive API documentation is available at [https://winelib.nl/docs](https://winelib.nl/docs).  
 Here, you'll find detailed information on how to interact with WineLib programmatically.
 
 ## Contributing
