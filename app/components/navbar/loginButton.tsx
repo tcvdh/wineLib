@@ -13,7 +13,12 @@ export default function LoginButton({
 }) {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isSignup, setIsSignup] = useState(false);
-  const [session, setSession] = useState<unknown>(null);
+  const [session, setSession] = useState<{
+    user: {
+      email: string;
+      name?: string;
+    };
+  } | null>(null);
 
   useEffect(() => {
     checkSession();
@@ -46,6 +51,7 @@ export default function LoginButton({
         </button>
         {isModalOpen && (
           <AccountModal
+            session={session}
             onClose={() => {
               setIsModalOpen(false);
               toggleMenu?.();

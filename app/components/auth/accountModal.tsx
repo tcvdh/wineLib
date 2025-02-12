@@ -5,6 +5,12 @@ import { authClient } from "@/app/lib/auth-client";
 import { useRouter } from "next/navigation";
 
 interface AccountModalProps {
+  session: {
+    user: {
+      email: string;
+      name?: string;
+    };
+  } | null;
   onClose: () => void;
   onLogout: () => void;
 }
@@ -14,23 +20,22 @@ interface UserData {
   name?: string;
 }
 
-export default function AccountModal({ onClose, onLogout }: AccountModalProps) {
+export default function AccountModal({
+  session,
+  onClose,
+  onLogout,
+}: AccountModalProps) {
   const router = useRouter();
   const [userData, setUserData] = useState<UserData>({});
 
   useEffect(() => {
-    const fetchUserData = async () => {
-      const { data } = await authClient.getSession();
-      if (data) {
-        setUserData({
-          email: data.user.email,
-          name: data.user.name || "Not set",
-        });
-      }
-    };
-
-    fetchUserData();
-  }, []);
+    if (session) {
+      setUserData({
+        email: session.user.email,
+        name: session.user.name || "Not set",
+      });
+    }
+  }, [session]);
 
   const handleLogout = async () => {
     await authClient.signOut();
@@ -56,16 +61,16 @@ export default function AccountModal({ onClose, onLogout }: AccountModalProps) {
         <div className="space-y-4">
           <div>
             <label className="block text-sm font-medium text-gray-700">
-              Email
+              Name
             </label>
-            <p className="mt-1 text-gray-900">{userData.email}</p>
+            <p className="mt-1 text-gray-900">{userData.name}</p>
           </div>
 
           <div>
             <label className="block text-sm font-medium text-gray-700">
-              Name
+              Email
             </label>
-            <p className="mt-1 text-gray-900">{userData.name}</p>
+            <p className="mt-1 text-gray-900">{userData.email}</p>
           </div>
 
           <button
