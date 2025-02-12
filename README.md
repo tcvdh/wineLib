@@ -26,6 +26,10 @@ Ensure you have [Node.js](https://nodejs.org/) installed. Then, run:
 npm install
 ```
 
+### Setup PostgreSQL Vercel DB with Drizzle
+
+Follow the instructions at [Drizzle with Vercel Documentation](https://orm.drizzle.team/docs/tutorials/drizzle-with-vercel) to set up your PostgreSQL database with Drizzle.
+
 ### Start the Application
 
 ```bash
