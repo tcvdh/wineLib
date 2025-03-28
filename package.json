@@ -27,6 +27,7 @@
     "@types/react": "^19",
     "@types/react-dom": "^19",
     "drizzle-kit": "^0.30.6",
+    "esbuild": "^0.25.1",
     "eslint": "^9",
     "eslint-config-next": "^15.2.4",
     "postcss": "^8",
