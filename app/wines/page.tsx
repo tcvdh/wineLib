@@ -4,6 +4,7 @@ import { auth } from "@/app/lib/auth";
 import WineList from "@/app/components/wineList";
 import AddItemButton from "@/app/components/wineItems/AddButton";
 import SearchBar from "@/app/components/SearchBar";
+import ExportButton from "../components/wineItems/ExportButton";
 
 interface WinesPageProps {
   searchParams?: Promise<{ query?: string }>;
@@ -23,6 +24,7 @@ export default async function Wines({ searchParams }: WinesPageProps) {
         <SearchBar />
         <div className="ml-auto flex items-center gap-5">
           <AddItemButton session={session} />
+          <ExportButton />
         </div>
       </div>
 

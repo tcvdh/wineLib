@@ -52,11 +52,8 @@ export default function LoginButton({
         {isModalOpen && (
           <AccountModal
             session={session}
-            onClose={() => {
-              setIsModalOpen(false);
-              toggleMenu?.();
-            }}
-            onLogout={checkSession}
+            onCloseAction={handleClose}
+            onLogoutAction={checkSession}
           />
         )}
       </>
@@ -74,9 +71,15 @@ export default function LoginButton({
 
       {isModalOpen &&
         (isSignup ? (
-          <SignupModal onClose={handleClose} onSwitch={toggleMode} />
+          <SignupModal
+            onCloseAction={handleClose}
+            onSwitchAction={toggleMode}
+          />
         ) : (
-          <SigninModal onClose={handleClose} onSwitch={toggleMode} />
+          <SigninModal
+            onCloseAction={handleClose}
+            onSwitchAction={toggleMode}
+          />
         ))}
     </>
   );

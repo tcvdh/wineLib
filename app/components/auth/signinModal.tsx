@@ -5,11 +5,14 @@ import { authClient } from "@/app/lib/auth-client";
 import { useRouter } from "next/navigation";
 
 interface SigninModalProps {
-  onClose: () => void;
-  onSwitch: () => void;
+  onCloseAction: () => void;
+  onSwitchAction: () => void;
 }
 
-export default function SigninModal({ onClose, onSwitch }: SigninModalProps) {
+export default function SigninModal({
+  onCloseAction,
+  onSwitchAction,
+}: SigninModalProps) {
   const router = useRouter();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -33,12 +36,12 @@ export default function SigninModal({ onClose, onSwitch }: SigninModalProps) {
         onSuccess: () => {
           setLoading(false);
           router.refresh();
-          onClose();
+          onCloseAction();
         },
         onRequest: () => {
           setLoading(true);
         },
-      }
+      },
     );
   };
 
@@ -46,7 +49,7 @@ export default function SigninModal({ onClose, onSwitch }: SigninModalProps) {
     <div className="fixed inset-0 flex items-center justify-center bg-opacity-50 backdrop-blur-sm">
       <div className="bg-white p-8 rounded-lg w-full sm:w-96 border border-gray-300 relative">
         <button
-          onClick={onClose}
+          onClick={onCloseAction}
           className="absolute top-4 right-4 text-gray-500 hover:text-gray-700"
         >
           ×
@@ -107,7 +110,7 @@ export default function SigninModal({ onClose, onSwitch }: SigninModalProps) {
             href="#"
             onClick={(e) => {
               e.preventDefault();
-              onSwitch();
+              onSwitchAction();
             }}
             className="text-blue-600 hover:text-blue-800"
           >

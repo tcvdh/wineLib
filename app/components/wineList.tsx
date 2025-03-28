@@ -63,10 +63,11 @@ export default async function WineList({ query }: WineListProps) {
               <Image
                 src={wine.image}
                 alt={wine.name}
+                loading="lazy"
+                quality={75}
                 width={50}
                 height={0}
                 className="rounded-md mx-auto"
-                loading="lazy"
                 style={{ width: "auto" }}
               />
             )}

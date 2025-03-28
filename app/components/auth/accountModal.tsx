@@ -11,8 +11,8 @@ interface AccountModalProps {
       name?: string;
     };
   } | null;
-  onClose: () => void;
-  onLogout: () => void;
+  onCloseAction: () => void;
+  onLogoutAction: () => void;
 }
 
 interface UserData {
@@ -22,8 +22,8 @@ interface UserData {
 
 export default function AccountModal({
   session,
-  onClose,
-  onLogout,
+  onCloseAction,
+  onLogoutAction,
 }: AccountModalProps) {
   const router = useRouter();
   const [userData, setUserData] = useState<UserData>({});
@@ -40,15 +40,15 @@ export default function AccountModal({
   const handleLogout = async () => {
     await authClient.signOut();
     router.refresh();
-    onClose();
-    onLogout();
+    onCloseAction();
+    onLogoutAction();
   };
 
   return (
     <div className="fixed inset-0 flex items-center justify-center bg-opacity-50 backdrop-blur-sm">
       <div className="bg-white p-8 rounded-lg w-full sm:w-96 border border-gray-300 relative">
         <button
-          onClick={onClose}
+          onClick={onCloseAction}
           className="absolute top-4 right-4 text-gray-500 hover:text-gray-700"
         >
           ×
