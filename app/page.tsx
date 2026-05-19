@@ -38,7 +38,7 @@ export default function Home() {
               Discover Wines
             </h2>
             <p className="text-gray-600">
-              Search and explore wines from around the world
+              Search and explore wines from around the world and get AI recommendations based on your preferences
             </p>
           </div>
 
