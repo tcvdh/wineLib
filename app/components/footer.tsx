@@ -7,8 +7,7 @@ export default function Footer() {
         <div>
           <Brand dark />
           <p className="mt-3 max-w-md">
-            A personal wine cellar that reads labels, learns your taste and
-            suggests what to open next.
+            A personal wine cellar for the bottles you have tried, own or want.
           </p>
         </div>
         <ul className="grid gap-2">
