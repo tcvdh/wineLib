@@ -1,14 +1,10 @@
 "use client";
 
-import React, { useState } from "react";
+import { useState } from "react";
 import AddItemModal from "./AddModal";
 import { Session } from "@/app/lib/auth-client";
 
-interface AddItemButtonProps {
-  session: Session | null;
-}
-
-export default function AddItemButton({ session }: AddItemButtonProps) {
+export default function AddItemButton({ session }: { session: Session | null }) {
   const [showModal, setShowModal] = useState(false);
 
   if (!session?.user.id) {
@@ -17,13 +13,9 @@ export default function AddItemButton({ session }: AddItemButtonProps) {
 
   return (
     <>
-      <button
-        className="p-2 bg-blue-500 text-white rounded cursor-pointer hover:bg-blue-600"
-        onClick={() => setShowModal(true)}
-      >
-        Add Item
+      <button className="btn" onClick={() => setShowModal(true)}>
+        Add wine
       </button>
-
       {showModal && <AddItemModal onClose={() => setShowModal(false)} />}
     </>
   );

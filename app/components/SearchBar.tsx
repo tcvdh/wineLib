@@ -20,9 +20,10 @@ export default function SearchBar() {
 
   return (
     <input
-      type="text"
-      placeholder="Search wines..."
-      className="border border-gray-300 rounded px-3 py-1"
+      type="search"
+      aria-label="Search your cellar"
+      placeholder="Search your cellar..."
+      className="rounded-full sm:w-60"
       onChange={(e) => handleSearch(e.target.value)}
       defaultValue={searchParams.get("query")?.toString()}
     />

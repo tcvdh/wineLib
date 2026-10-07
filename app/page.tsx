@@ -1,84 +1,53 @@
-import Image from "next/image";
 import Link from "next/link";
+
+const features = [
+  {
+    title: "Find any wine",
+    text: "Search a wine by name and add it with its bottle shot and current price.",
+  },
+  {
+    title: "Keep your cellar",
+    text: "Every bottle you own, tried or want, with vintage, price and your score.",
+  },
+  {
+    title: "Rate and export",
+    text: "Score wines out of 100 and export your whole cellar to CSV whenever you like.",
+  },
+];
 
 export default function Home() {
   return (
-    <div className="min-h-screen bg-gradient-to-b from-gray-50 to-white">
-      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-        {/* Hero Section */}
-        <main className="text-center space-y-8 py-16">
-          <h1 className="text-5xl font-bold text-gray-900">
-            Welcome to WineLib
+    <>
+      <section className="py-20 md:py-28">
+        <div className="wrap">
+          <h1 className="mb-6 max-w-3xl text-[clamp(2.5rem,5.4vw,4.3rem)]">
+            Your wine cellar, <span className="text-merlot">in one place.</span>
           </h1>
-          <p className="text-xl text-gray-600 max-w-2xl mx-auto">
-            Your personal wine collection manager. Discover, track, and rate
-            your favorite wines.
+          <p className="max-w-[34em] text-xl leading-normal text-ink-2">
+            Keep every bottle you have tried, own or want. Add wines in
+            seconds, rate them and always know what is on your shelf.
           </p>
-          <Link
-            href="/wines"
-            className="inline-block bg-blue-500 text-white px-8 py-3 rounded-lg hover:bg-blue-600 transition-colors"
-          >
-            View Wine Collection
-          </Link>
-        </main>
-
-        {/* Features */}
-        <div className="grid md:grid-cols-3 gap-8 py-16">
-          <div className="text-center space-y-4">
-            <div className="bg-gray-100 w-16 h-16 rounded-full mx-auto flex items-center justify-center">
-              <Image
-                src="/search-icon.svg"
-                alt="Search"
-                width={24}
-                height={24}
-                priority
-              />
-            </div>
-            <h2 className="text-xl font-semibold text-gray-900">
-              Discover Wines
-            </h2>
-            <p className="text-gray-600">
-              Search and explore wines from around the world and get AI recommendations based on your preferences
-            </p>
-          </div>
-
-          <div className="text-center space-y-4">
-            <div className="bg-gray-100 w-16 h-16 rounded-full mx-auto flex items-center justify-center">
-              <Image
-                src="/collection-icon.svg"
-                alt="Collection"
-                width={24}
-                height={24}
-                priority
-              />
-            </div>
-            <h2 className="text-xl font-semibold text-gray-900">
-              Track Collection
-            </h2>
-            <p className="text-gray-600">
-              Manage your personal wine collection
-            </p>
-          </div>
-
-          <div className="text-center space-y-4">
-            <div className="bg-gray-100 w-16 h-16 rounded-full mx-auto flex items-center justify-center">
-              <Image
-                src="/rate-icon.svg"
-                alt="Rate"
-                width={24}
-                height={24}
-                priority
-              />
-            </div>
-            <h2 className="text-xl font-semibold text-gray-900">
-              Rate & Review
-            </h2>
-            <p className="text-gray-600">
-              Keep track of your wine ratings and notes
-            </p>
+          <div className="mt-8 flex flex-wrap gap-3">
+            <Link href="/wines" className="btn">
+              Open my cellar
+            </Link>
+            <a href="https://www.winelib.nl" className="btn-ghost">
+              About Winelib
+            </a>
           </div>
         </div>
-      </div>
-    </div>
+      </section>
+
+      <section className="border-y border-mist bg-paper py-20">
+        <div className="wrap grid gap-10 md:grid-cols-3">
+          {features.map((f, i) => (
+            <div key={f.title} className={i ? "md:border-l md:border-mist md:pl-10" : ""}>
+              <h2 className="mb-2.5 text-[1.35rem] leading-tight">{f.title}</h2>
+              <p className="text-ink-2">{f.text}</p>
+            </div>
+          ))}
+        </div>
+      </section>
+    </>
   );
 }

@@ -1,8 +1,8 @@
 "use client";
 
-import { useState, useEffect } from "react";
 import { authClient } from "@/app/lib/auth-client";
 import { useRouter } from "next/navigation";
+import Modal from "../modal";
 
 interface AccountModalProps {
   session: {
@@ -10,77 +10,35 @@ interface AccountModalProps {
       email: string;
       name?: string;
     };
-  } | null;
+  };
   onCloseAction: () => void;
-  onLogoutAction: () => void;
 }
 
-interface UserData {
-  email?: string;
-  name?: string;
-}
-
-export default function AccountModal({
-  session,
-  onCloseAction,
-  onLogoutAction,
-}: AccountModalProps) {
+export default function AccountModal({ session, onCloseAction }: AccountModalProps) {
   const router = useRouter();
-  const [userData, setUserData] = useState<UserData>({});
-
-  useEffect(() => {
-    if (session) {
-      setUserData({
-        email: session.user.email,
-        name: session.user.name || "Not set",
-      });
-    }
-  }, [session]);
 
   const handleLogout = async () => {
     await authClient.signOut();
-    router.refresh();
     onCloseAction();
-    onLogoutAction();
+    router.refresh();
   };
 
   return (
-    <div className="fixed inset-0 flex items-center justify-center bg-opacity-50 backdrop-blur-sm">
-      <div className="bg-white p-8 rounded-lg w-full sm:w-96 border border-gray-300 relative">
-        <button
-          onClick={onCloseAction}
-          className="absolute top-4 right-4 text-gray-500 hover:text-gray-700"
-        >
-          ×
-        </button>
-
-        <h2 className="mb-6 text-2xl font-semibold text-center">
-          Account Details
-        </h2>
-
-        <div className="space-y-4">
-          <div>
-            <label className="block text-sm font-medium text-gray-700">
-              Name
-            </label>
-            <p className="mt-1 text-gray-900">{userData.name}</p>
+    <Modal title="Your account" onClose={onCloseAction}>
+      <dl className="grid gap-0">
+        {[
+          ["Name", session.user.name || "Not set"],
+          ["Email", session.user.email],
+        ].map(([k, v]) => (
+          <div key={k} className="grid grid-cols-[80px_1fr] gap-3 border-t border-mist py-2.5">
+            <dt className="text-sm text-ink-2">{k}</dt>
+            <dd className="font-semibold break-all">{v}</dd>
           </div>
-
-          <div>
-            <label className="block text-sm font-medium text-gray-700">
-              Email
-            </label>
-            <p className="mt-1 text-gray-900">{userData.email}</p>
-          </div>
-
-          <button
-            onClick={handleLogout}
-            className="w-full mt-6 bg-red-600 text-white py-2 px-4 rounded-md hover:bg-red-700 transition-colors"
-          >
-            Logout
-          </button>
-        </div>
-      </div>
-    </div>
+        ))}
+      </dl>
+      <button onClick={handleLogout} className="btn-ghost mt-6 w-full">
+        Sign out
+      </button>
+    </Modal>
   );
 }

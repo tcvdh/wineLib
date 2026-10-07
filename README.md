@@ -32,7 +32,7 @@ npm install
 
 ### Setup PostgreSQL Vercel DB with Drizzle
 
-Follow the instructions at [Drizzle with Vercel Documentation](https://orm.drizzle.team/docs/tutorials/drizzle-with-vercel) to set up your PostgreSQL database with Drizzle.
+Uses a Neon Postgres database (`POSTGRES_URL`) through Drizzle and `@neondatabase/serverless`. Pull the env vars with `vercel env pull .env.local`.
 
 ### Setup Authentication
 

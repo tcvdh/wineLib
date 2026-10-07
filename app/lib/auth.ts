@@ -10,6 +10,12 @@ export const auth = betterAuth({
     enabled: true,
     minimumPasswordLength: 8,
   },
+  trustedOrigins: [
+    "https://app.winelib.nl",
+    "http://localhost:3000",
+    ...(process.env.VERCEL_URL ? [`https://${process.env.VERCEL_URL}`] : []),
+    ...(process.env.VERCEL_BRANCH_URL ? [`https://${process.env.VERCEL_BRANCH_URL}`] : []),
+  ],
   advanced: {
     cookiePrefix: "WineLib",
   },

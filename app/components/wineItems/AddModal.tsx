@@ -1,9 +1,10 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import React, { useState, useEffect, useRef } from "react";
+import { useState } from "react";
 import { fetchWinesFromVivino } from "@/app/lib/vivino";
 import { addWine } from "@/app/lib/drizzle/queries";
+import Modal from "../modal";
 
 interface Vino {
   name: string;
@@ -13,11 +14,10 @@ interface Vino {
   region: string;
   country: string;
 }
-interface AddItemModalProps {
-  onClose: () => void;
-}
 
-export default function AddItemModal({ onClose }: AddItemModalProps) {
+const thisYear = new Date().getFullYear();
+
+export default function AddItemModal({ onClose }: { onClose: () => void }) {
   const router = useRouter();
   const [searchTerm, setSearchTerm] = useState("");
   const [results, setResults] = useState<Vino[]>([]);
@@ -26,18 +26,19 @@ export default function AddItemModal({ onClose }: AddItemModalProps) {
   const [year, setYear] = useState("");
   const [rating, setRating] = useState("");
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
   const [editableName, setEditableName] = useState("");
-  const inputRef = useRef<HTMLInputElement>(null);
 
-  useEffect(() => {
-    inputRef.current?.focus();
-  }, []);
-
-  async function handleSearch() {
+  async function handleSearch(e: React.FormEvent) {
+    e.preventDefault();
     if (!searchTerm.trim()) return;
     setLoading(true);
-    const data = await fetchWinesFromVivino(searchTerm);
-    setResults(data);
+    setError("");
+    try {
+      setResults(await fetchWinesFromVivino(searchTerm));
+    } catch {
+      setError("Search failed. Please try again.");
+    }
     setLoading(false);
   }
 
@@ -48,14 +49,15 @@ export default function AddItemModal({ onClose }: AddItemModalProps) {
     const yearMatch = wine.name.match(/\d{4}$/);
     if (yearMatch) {
       const potentialYear = parseInt(yearMatch[0]);
-      if (potentialYear >= 1900 && potentialYear <= 2024) {
+      if (potentialYear >= 1900 && potentialYear <= thisYear) {
         setYear(yearMatch[0]);
         setEditableName(wine.name.slice(0, -4).trim());
       }
     }
   }
 
-  async function handleSubmit() {
+  async function handleSubmit(e: React.FormEvent) {
+    e.preventDefault();
     if (!selectedWine) return;
 
     try {
@@ -70,116 +72,80 @@ export default function AddItemModal({ onClose }: AddItemModalProps) {
       onClose();
     } catch (error) {
       console.error("Error adding wine:", error);
+      setError("Could not save this wine. Check the fields and try again.");
     }
   }
 
   return (
-    <div className="fixed inset-0 flex items-center justify-center bg-opacity-50 backdrop-blur-sm">
-      <div className="bg-white p-8 rounded w-full sm:w-1/2 border border-gray-700">
-        <h2 className="mb-4 text-xl font-semibold">Add New Item</h2>
-        <div className="flex mb-4">
-          <div className="relative flex-grow">
-            <input
-              ref={inputRef}
-              type="text"
-              value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
-              onKeyDown={(e) => {
-                if (e.key === "Enter") {
-                  handleSearch();
-                }
-              }}
-              className="border p-2 w-full"
-              placeholder="Search wine..."
-            />
-            {searchTerm && (
+    <Modal title="Add a wine" onClose={onClose} wide>
+      <form onSubmit={handleSearch} className="mb-4 flex gap-3">
+        <input
+          type="search"
+          aria-label="Wine name"
+          value={searchTerm}
+          onChange={(e) => setSearchTerm(e.target.value)}
+          placeholder="Search by name, e.g. Château Margaux"
+          autoFocus
+        />
+        <button type="submit" className="btn shrink-0" disabled={loading}>
+          {loading ? "Searching..." : "Search"}
+        </button>
+      </form>
+
+      {results.length > 0 && (
+        <ul className="mb-5 grid gap-2">
+          {results.map((wine, index) => (
+            <li key={index}>
               <button
-                onClick={() => setSearchTerm("")}
-                className="absolute right-2 top-1/2 -translate-y-1/2 text-gray-500 hover:text-gray-700"
-              >
-                ✕
-              </button>
-            )}
-          </div>
-          <button
-            onClick={handleSearch}
-            className="ml-4 p-2 bg-blue-500 text-white rounded cursor-pointer hover:bg-blue-600"
-          >
-            Search
-          </button>
-        </div>
-
-        {/* Display loading or results */}
-        {loading ? (
-          <p>Searching...</p>
-        ) : (
-          <ul className="mb-4 max-h-60 overflow-auto border">
-            {results.map((wine, index) => (
-              <li
-                key={index}
-                className={`p-2 border-b cursor-pointer hover:bg-gray-100 ${
-                  selectedWine === wine ? "bg-gray-200" : ""
-                }`}
+                type="button"
                 onClick={() => handleSelectWine(wine)}
+                aria-pressed={selectedWine === wine}
+                className={`w-full cursor-pointer rounded-xl border-[1.5px] px-4 py-3 text-left transition-colors ${
+                  selectedWine === wine ? "border-merlot bg-merlot/5" : "border-mist hover:border-ink"
+                }`}
               >
-                {index + 1}. {wine.name}
-              </li>
-            ))}
-          </ul>
-        )}
+                <span className="font-semibold">{wine.name}</span>
+                {(wine.region || wine.country) && (
+                  <span className="block text-sm text-ink-2">
+                    {[wine.region, wine.country].filter(Boolean).join(", ")}
+                  </span>
+                )}
+              </button>
+            </li>
+          ))}
+        </ul>
+      )}
 
-        {selectedWine && (
-          <div className="mt-4 space-y-2">
-            <input
-              type="text"
-              value={editableName}
-              onChange={(e) => setEditableName(e.target.value)}
-              className="border p-2 w-full"
-              placeholder="Wine Name"
-            />
-            <input
-              type="number"
-              value={price}
-              onChange={(e) => setPrice(e.target.value)}
-              className="border p-2 w-full"
-              placeholder="Price"
-              step="0.01"
-            />
-            <input
-              type="number"
-              value={year}
-              onChange={(e) => setYear(e.target.value)}
-              className="border p-2 w-full"
-              placeholder="Year (1900-2024)"
-              min="1900"
-              max="2024"
-            />
-            <input
-              type="number"
-              value={rating}
-              onChange={(e) => setRating(e.target.value)}
-              className="border p-2 w-full"
-              placeholder="Rating (0-100)"
-              min="0"
-              max="100"
-            />
+      {error && <p role="alert" className="mb-4 text-sm text-merlot">{error}</p>}
+
+      {selectedWine && (
+        <form onSubmit={handleSubmit} className="grid gap-4 border-t border-mist pt-5 sm:grid-cols-3">
+          <div className="sm:col-span-3">
+            <label htmlFor="add-name">Name</label>
+            <input id="add-name" type="text" value={editableName} onChange={(e) => setEditableName(e.target.value)} required />
           </div>
-        )}
-
-        {/* Save the selected item */}
-        <button
-          className="mt-4 p-2 bg-green-500 text-white rounded cursor-pointer hover:bg-green-600"
-          onClick={handleSubmit}
-        >
-          Submit
-        </button>
-        <button
-          className="ml-4 mt-4 p-2 bg-gray-300 rounded cursor-pointer hover:bg-gray-400"
-          onClick={onClose}
-        >
-          Close
-        </button>
-      </div>
-    </div>
+          <div>
+            <label htmlFor="add-price">Price (€)</label>
+            <input id="add-price" type="number" value={price} onChange={(e) => setPrice(e.target.value)} step="0.01" min="0" required />
+          </div>
+          <div>
+            <label htmlFor="add-year">Vintage</label>
+            <input id="add-year" type="number" value={year} onChange={(e) => setYear(e.target.value)} min="1900" max={thisYear} required />
+          </div>
+          <div>
+            <label htmlFor="add-rating">Score (0-100)</label>
+            <input id="add-rating" type="number" value={rating} onChange={(e) => setRating(e.target.value)} min="0" max="100" required />
+          </div>
+          <div className="flex justify-end gap-3 sm:col-span-3">
+            <button type="button" className="btn-ghost" onClick={onClose}>
+              Cancel
+            </button>
+            <button type="submit" className="btn">
+              Add to cellar
+            </button>
+          </div>
+        </form>
+      )}
+    </Modal>
   );
 }
