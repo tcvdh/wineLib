@@ -26,7 +26,7 @@ export default function Footer() {
         </ul>
         <p className="border-t border-[#3A2F47] pt-5 text-sm md:col-span-2">
           Winelib is for adults of legal drinking age. Please enjoy wine
-          responsibly. &copy; 2025&ndash;2026 Winelib, by Thijs van den Heuvel.
+          responsibly. &copy; 2026 Winelib, by Thijs van den Heuvel. Built with Claude Code.
         </p>
       </div>
     </footer>
