@@ -1,23 +1,25 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Hanken_Grotesk, Young_Serif } from "next/font/google";
 import "./globals.css";
 import Navbar from "./components/navbar/navbar";
 import Footer from "./components/footer";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
+const youngSerif = Young_Serif({
+  variable: "--font-young-serif",
+  weight: "400",
   subsets: ["latin"],
 });
 
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
+const hanken = Hanken_Grotesk({
+  variable: "--font-hanken",
   subsets: ["latin"],
 });
 
 export const metadata: Metadata = {
-  title: "Wine Tracker - WineLib",
-  description: "Created by tcvdh",
+  title: "Winelib | Your wine cellar",
+  description:
+    "Your personal wine cellar. Keep every bottle, rating and price in one place.",
 };
 
 export default function RootLayout({
@@ -26,12 +28,10 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-      >
+    <html lang="en" className={`${youngSerif.variable} ${hanken.variable}`}>
+      <body className="flex min-h-screen flex-col">
         <Navbar />
-        <div className="mt-16">{children}</div>
+        <main className="flex-1">{children}</main>
         <Footer />
         <SpeedInsights />
       </body>

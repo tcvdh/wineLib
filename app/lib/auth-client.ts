@@ -7,11 +7,7 @@ export interface Session {
   };
 }
 
-export const authClient = createAuthClient({
-  baseURL: process.env.NEXT_PUBLIC_VERCEL_PROJECT_PRODUCTION_URL
-    ? "https://" + process.env.NEXT_PUBLIC_VERCEL_PROJECT_PRODUCTION_URL
-    : "http://localhost:3000",
-  tokenStorage: "localStorage",
-});
+// Same-origin by default, so it works on app.winelib.nl, previews and localhost.
+export const authClient = createAuthClient();
 
 export type AuthClient = typeof authClient;

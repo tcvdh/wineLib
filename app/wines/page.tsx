@@ -11,38 +11,31 @@ interface WinesPageProps {
 }
 
 export default async function Wines({ searchParams }: WinesPageProps) {
-  const resolvedParams = await Promise.resolve(searchParams);
-  const query = resolvedParams?.query || "";
+  const query = (await searchParams)?.query || "";
 
   const session = await auth.api.getSession({
     headers: await headers(),
   });
 
   return (
-    <div className="p-5">
-      <div className="flex items-center gap-5 mb-5">
-        <SearchBar />
-        <div className="ml-auto flex items-center gap-5">
-          <AddItemButton session={session} />
-          <ExportButton />
+    <div className="wrap py-14">
+      <div className="mb-10 flex flex-wrap items-end gap-5">
+        <div className="mr-auto">
+          <h1 className="mb-2 text-[clamp(2.2rem,4.6vw,3.5rem)]">My cellar</h1>
+          <p className="text-ink-2">
+            {session ? "Every bottle you have added, newest last." : "Sign in to see your wines."}
+          </p>
         </div>
+        {session && (
+          <div className="flex w-full flex-wrap items-center gap-3 sm:w-auto">
+            <SearchBar />
+            <AddItemButton session={session} />
+            <ExportButton />
+          </div>
+        )}
       </div>
 
-      <div className="overflow-x-auto">
-        <table className="min-w-full bg-white">
-          <thead>
-            <tr>
-              <th className="py-2 px-4 border-b w-64">Wine</th>
-              <th className="py-2 px-4 border-b">Image</th>
-              <th className="py-2 px-4 border-b">Price</th>
-              <th className="py-2 px-4 border-b">Year</th>
-              <th className="py-2 px-4 border-b">Rating</th>
-              <th className="py-2 px-4 border-b w-16">Actions</th>
-            </tr>
-          </thead>
-          <WineList query={query} />
-        </table>
-      </div>
+      <WineList query={query} signedIn={!!session} />
     </div>
   );
 }

@@ -7,10 +7,7 @@ export default function EditButton({ id }: { id: number }) {
 
   return (
     <>
-      <button
-        onClick={() => setShowModal(true)}
-        className="text-blue-500 hover:text-blue-700 mr-2"
-      >
+      <button onClick={() => setShowModal(true)} className="cursor-pointer font-semibold text-merlot hover:text-merlot-d">
         Edit
       </button>
       {showModal && <EditModal id={id} onClose={() => setShowModal(false)} />}

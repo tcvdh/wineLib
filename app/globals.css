@@ -1,20 +1,57 @@
 @import "tailwindcss";
 
+/* Same tokens as the marketing site (winelib.nl) */
 @theme {
-  --color-background: #f2f2f2;
-  --color-text-primary: #171717;
+  --color-chalk: #f1eff3;
+  --color-paper: #fbfafc;
+  --color-ink: #1c1325;
+  --color-ink-2: #4a4256;
+  --color-mist: #ddd8e4;
+  --color-merlot: #7a1f45;
+  --color-merlot-d: #5e1535;
+  --color-vine: #4c6a33;
+  --color-gold: #c79a2b;
+  --font-serif: var(--font-young-serif), Georgia, serif;
+  --font-sans: var(--font-hanken), system-ui, -apple-system, "Segoe UI", sans-serif;
 }
 
 @layer base {
-  *,
-  ::after,
-  ::before,
-  ::backdrop,
-  ::file-selector-button {
-    border-color: var(--color-gray-200, currentColor);
+  body {
+    @apply bg-chalk text-ink font-sans antialiased;
+    font-size: 1.0625rem;
+    line-height: 1.6;
+  }
+  h1, h2, h3 {
+    @apply font-serif font-normal tracking-tight;
+    line-height: 1.1;
+  }
+  a {
+    @apply text-merlot underline-offset-3 hover:text-merlot-d;
+  }
+  :focus-visible {
+    @apply outline-3 outline-offset-3 outline-gold rounded;
+  }
+  input,
+  select {
+    @apply w-full rounded-xl border-[1.5px] border-mist bg-white px-3.5 py-2.5 text-ink placeholder:text-ink-2/60 focus:border-merlot focus:outline-none;
+  }
+  label {
+    @apply mb-1 block text-sm font-semibold text-ink-2;
   }
 }
 
-body {
-  @apply bg-background text-text-primary;
+@utility btn {
+  @apply inline-flex cursor-pointer items-center justify-center gap-2 rounded-full border-2 border-merlot bg-merlot px-5 py-2.5 font-semibold text-white no-underline transition-colors hover:border-merlot-d hover:bg-merlot-d hover:text-white disabled:cursor-not-allowed disabled:opacity-60;
+}
+
+@utility btn-ghost {
+  @apply btn bg-transparent text-merlot hover:bg-merlot hover:text-white;
+}
+
+@utility btn-sm {
+  @apply px-4 py-1.5 text-[0.95rem];
+}
+
+@utility wrap {
+  @apply mx-auto w-full max-w-[1160px] px-6;
 }

@@ -2,13 +2,11 @@
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { getWineById, updateWine } from "@/app/lib/drizzle/queries";
+import Modal from "../modal";
 
-interface EditModalProps {
-  id: number;
-  onClose: () => void;
-}
+const thisYear = new Date().getFullYear();
 
-export default function EditModal({ id, onClose }: EditModalProps) {
+export default function EditModal({ id, onClose }: { id: number; onClose: () => void }) {
   const router = useRouter();
   const [formData, setFormData] = useState({
     name: "",
@@ -18,10 +16,10 @@ export default function EditModal({ id, onClose }: EditModalProps) {
     rating: "",
   });
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState("");
 
   useEffect(() => {
-    const loadWine = async () => {
-      const data = await getWineById(id);
+    getWineById(id).then((data) => {
       if (data) {
         setFormData({
           name: data.name,
@@ -32,8 +30,7 @@ export default function EditModal({ id, onClose }: EditModalProps) {
         });
       }
       setLoading(false);
-    };
-    loadWine();
+    });
   }, [id]);
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -48,85 +45,53 @@ export default function EditModal({ id, onClose }: EditModalProps) {
       onClose();
     } catch (error) {
       console.error("Error updating wine:", error);
+      setError("Could not save your changes. Please try again.");
     }
   };
 
+  const field = (key: keyof typeof formData) => ({
+    id: `edit-${key}`,
+    value: formData[key],
+    onChange: (e: React.ChangeEvent<HTMLInputElement>) => setFormData({ ...formData, [key]: e.target.value }),
+  });
+
   return (
-    <div className="fixed inset-0 flex items-center justify-center bg-opacity-50 backdrop-blur-sm">
-      <div className="bg-white p-8 rounded w-full sm:w-1/2 border border-gray-700">
-        <h2 className="text-xl font-bold mb-4">Edit Wine</h2>
-        {loading ? (
-          <p>Loading...</p>
-        ) : (
-          <form onSubmit={handleSubmit} className="space-y-4">
-            <input
-              type="text"
-              value={formData.name}
-              onChange={(e) =>
-                setFormData({ ...formData, name: e.target.value })
-              }
-              className="w-full p-2 border rounded"
-              placeholder="Name"
-            />
-            <input
-              type="text"
-              value={formData.image}
-              onChange={(e) =>
-                setFormData({ ...formData, image: e.target.value })
-              }
-              className="w-full p-2 border rounded"
-              placeholder="Image URL"
-            />
-            <input
-              type="number"
-              value={formData.price}
-              onChange={(e) =>
-                setFormData({ ...formData, price: e.target.value })
-              }
-              className="w-full p-2 border rounded"
-              placeholder="Price"
-              step="0.01"
-            />
-            <input
-              type="number"
-              value={formData.year}
-              onChange={(e) =>
-                setFormData({ ...formData, year: e.target.value })
-              }
-              className="w-full p-2 border rounded"
-              placeholder="Year"
-              min="1900"
-              max="2024"
-            />
-            <input
-              type="number"
-              value={formData.rating}
-              onChange={(e) =>
-                setFormData({ ...formData, rating: e.target.value })
-              }
-              className="w-full p-2 border rounded"
-              placeholder="Rating"
-              min="0"
-              max="100"
-            />
-            <div className="flex justify-end space-x-2">
-              <button
-                type="button"
-                onClick={onClose}
-                className="px-4 py-2 text-gray-600 hover:text-gray-800"
-              >
-                Cancel
-              </button>
-              <button
-                type="submit"
-                className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"
-              >
-                Save Changes
-              </button>
-            </div>
-          </form>
-        )}
-      </div>
-    </div>
+    <Modal title="Edit wine" onClose={onClose} wide>
+      {loading ? (
+        <p className="text-ink-2">Loading...</p>
+      ) : (
+        <form onSubmit={handleSubmit} className="grid gap-4 sm:grid-cols-3">
+          <div className="sm:col-span-3">
+            <label htmlFor="edit-name">Name</label>
+            <input type="text" required {...field("name")} />
+          </div>
+          <div className="sm:col-span-3">
+            <label htmlFor="edit-image">Image URL</label>
+            <input type="url" {...field("image")} />
+          </div>
+          <div>
+            <label htmlFor="edit-price">Price (€)</label>
+            <input type="number" step="0.01" min="0" required {...field("price")} />
+          </div>
+          <div>
+            <label htmlFor="edit-year">Vintage</label>
+            <input type="number" min="1900" max={thisYear} required {...field("year")} />
+          </div>
+          <div>
+            <label htmlFor="edit-rating">Score (0-100)</label>
+            <input type="number" min="0" max="100" required {...field("rating")} />
+          </div>
+          {error && <p role="alert" className="text-sm text-merlot sm:col-span-3">{error}</p>}
+          <div className="flex justify-end gap-3 sm:col-span-3">
+            <button type="button" onClick={onClose} className="btn-ghost">
+              Cancel
+            </button>
+            <button type="submit" className="btn">
+              Save changes
+            </button>
+          </div>
+        </form>
+      )}
+    </Modal>
   );
 }

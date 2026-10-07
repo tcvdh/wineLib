@@ -34,9 +34,9 @@ export default function DeleteButton({ id }: { id: number }) {
   return (
     <button
       onClick={handleDelete}
-      className={`${
-        isConfirming ? "text-red-600 font-bold" : "text-red-500"
-      } hover:text-red-700`}
+      className={`cursor-pointer ${
+        isConfirming ? "font-bold text-merlot" : "text-ink-2 hover:text-merlot"
+      }`}
     >
       {isConfirming ? "Click again to delete" : "Delete"}
     </button>
